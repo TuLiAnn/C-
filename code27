@@ -1,0 +1,26 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int removeElement(vector<int>& nums, int val){
+	int size = 0;
+	int i = 0;
+	while(i < nums.size()){
+		if(nums[i] != val){
+			nums[size] = nums[i];
+			size++;
+		}
+		i++;
+	}
+	return size;
+}
+
+int main(){
+	int a[] = {3, 2, 2, 3};
+	int n = 3;
+	int i = 0;
+	int len = sizeof(a)/sizeof(a[0]);
+	vector<int> arr(a, a+len);
+	cout << removeElement(arr, 3);
+	return 0;
+}
