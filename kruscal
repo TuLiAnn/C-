@@ -1,0 +1,82 @@
+#include<iostream>
+
+using namespace std;
+const int maxc = 100;
+const int maxs = 10;
+
+int main(){
+	
+	int a, b, c, x = 0, edge = 0, min = 999, map[maxc][maxc], cost = 0, maxcode = 0, codesuma = 0, codesumb = 0, t = 0;
+	
+	for(int i = 0; i < maxc; i++){
+		for(int j = 0; j < maxc; j++){
+		    map[i][j] = 999;
+		}
+	}
+	
+	while(cin >> a >> b >> c){
+		if(a > b && a > maxcode) maxcode = a;
+		else if(b > maxcode) maxcode = b;
+		map[a][b] = c;
+		map[b][a] = c;
+	}
+	maxcode++;
+	int *code;
+	code = new int[maxcode];
+	int *teamcode;
+	teamcode = new int[maxcode];
+	for(int i = 0; i < maxcode; i++) {
+		code[i] = 0;
+		teamcode[i] = 0;
+	}
+	while(edge < maxcode-1){
+		for(int i = 0; i < maxc; i++){
+		    for(int j = 0; j < maxc; j++){
+		        if(min > map[i][j]) {
+		        	min = map[i][j];
+		        	a = i;
+		        	b = j;
+				}
+		    }
+	    }
+	    edge++;
+	    if(code[a] == 0 && code[b] == 0){
+	    	t++;
+	    	teamcode[a] = t;
+	    	teamcode[b] = t;
+	    	cout << edge << ": <" << a << ", " << b << ">\n";
+		}
+		else if(teamcode[a] > teamcode[b] && teamcode[b] != 0) {
+	    	cout << edge << ": <" << a << ", " << b << ">\n";
+	    	t = teamcode[a];
+	    	for(int i = 0; i < maxcode; i++) {
+	    		if(teamcode[i] == t) teamcode[i] = teamcode[b];
+			} 
+		}
+		else if(teamcode[b] > teamcode[a] && teamcode[a] != 0) {
+	    	cout << edge << ": <" << a << ", " << b << ">\n";
+	    	t = teamcode[b];
+	    	for(int i = 0; i < maxcode; i++) {
+	    		if(teamcode[i] == b) teamcode[i] = teamcode[a];
+			}
+		}
+		else if(teamcode[a] == teamcode[b] && teamcode[a] != 0){
+			edge--;
+			cost -= min;
+		}
+		else {
+			cout << edge << ": <" << a << ", " << b << ">\n";
+			if(teamcode[a] == 0) teamcode[a] = teamcode[b];
+			else teamcode[b] = teamcode[a];
+		}
+	    code[a] = 1;
+	    code[b] = 1;		
+		cost += min;
+		map[a][b] = 999;
+		map[b][a] = 999;
+		min = 999;
+	}
+	cout << "The cost of minimum spanning tree: " << cost << endl;
+	return 0;
+	system("pause");
+} 
