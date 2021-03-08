@@ -1,0 +1,31 @@
+#include<iostream>
+
+using namespace std;
+class Solution{
+public:
+	int lengthOfLongestSubstring(string s){
+		if(s == "") return 0;
+		int maxn = 0, n = 0;
+		for(int i = 0; i < s.length(); i++){
+			if(i == 0) n++;
+			else{
+				for(int j = 0; j <= i; j++){
+					if(s[j] != s[i]) n++;
+					else{
+						n++;
+						if(maxn < n) maxn = n;
+						n = 0;
+					}
+				}
+			}
+		}
+		return maxn;
+	}
+};
+int main(){
+	Solution ans;
+	string s;
+	cin >> s;
+	cout << ans.lengthOfLongestSubstring(s) << endl;
+	return 0;
+} 
